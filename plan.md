@@ -128,25 +128,25 @@ This document outlines the implementation plan for the Train Times iOS app.
 - [ ] Persist settings in MMKV
 - [ ] Add app version/info section
 
-### Phase 10: UI/UX Polish
+### Phase 10: UI/UX Polish ✅
 
 **Goal**: Make UI and UX really polished and up to modern standard of high quality apps.
 
-- [ ] Add smooth animations and transitions between screens
-- [ ] Implement micro-interactions (button press feedback, loading states)
-- [ ] Add pull-to-refresh with custom animation
-- [ ] Implement skeleton loaders for all loading states
-- [ ] Add subtle shadows and depth to cards/surfaces
-- [ ] Ensure consistent spacing and typography throughout
-- [ ] Add empty states with helpful illustrations
-- [ ] Implement swipe gestures where appropriate
+- [x] Add smooth animations and transitions between screens
+- [x] Implement micro-interactions (button press feedback, loading states)
+- [x] Add pull-to-refresh with custom animation
+- [x] Implement skeleton loaders for all loading states
+- [x] Add subtle shadows and depth to cards/surfaces
+- [x] Ensure consistent spacing and typography throughout
+- [x] Add empty states with helpful illustrations
+- [x] Implement swipe gestures where appropriate
 - [ ] Add keyboard shortcuts for web
-- [ ] Ensure smooth 60fps scrolling and animations
-- [ ] Add loading indicators for async actions
-- [ ] Implement toast/snackbar notifications for feedback
-- [ ] Review and refine all touch targets (min 44pt)
-- [ ] Add subtle hover states for web
-- [ ] Ensure responsive layout works beautifully at all sizes
+- [x] Ensure smooth 60fps scrolling and animations
+- [x] Add loading indicators for async actions
+- [x] Implement toast/snackbar notifications for feedback
+- [x] Review and refine all touch targets (min 44pt)
+- [x] Add subtle hover states for web
+- [x] Ensure responsive layout works beautifully at all sizes
 
 ### Phase 11: Testing & Quality
 

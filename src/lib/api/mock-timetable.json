@@ -1,0 +1,65 @@
+{
+  "date": "2026-01-20",
+  "time_of_day": "17:30",
+  "request_time": "2026-01-17T00:27:22+00:00",
+  "station_name": "London Charing Cross",
+  "station_code": "CHX",
+  "updates": {
+    "all": [
+      {
+        "mode": "train",
+        "service": "24650000",
+        "train_uid": "P73390",
+        "platform": "3",
+        "operator": "SE",
+        "operator_name": "Southeastern",
+        "aimed_departure_time": "18:25",
+        "aimed_arrival_time": null,
+        "aimed_pass_time": null,
+        "origin_name": "London Charing Cross",
+        "destination_name": "Dartford",
+        "source": "Network Rail",
+        "category": "OO",
+        "service_timetable": {
+          "id": "https://transportapi.com/v3/uk/train/service_timetables/P73390:2026-01-20.json?app_id=7af98c68&app_key=2f16133ec369004284679d07d4ba6171&live=true"
+        },
+        "station_detail": {
+          "origin": {
+            "station_name": "London Charing Cross",
+            "platform": "3",
+            "station_code": "CHX",
+            "tiploc_code": "CHRX",
+            "aimed_arrival_time": null,
+            "aimed_departure_time": "18:25",
+            "aimed_pass_time": null
+          },
+          "destination": {
+            "station_name": "Dartford",
+            "platform": "1",
+            "station_code": "DFD",
+            "tiploc_code": "DARTFD",
+            "aimed_arrival_time": "19:13",
+            "aimed_departure_time": null,
+            "aimed_pass_time": null
+          },
+          "calling_at": [
+            {
+              "station_name": "Kidbrooke",
+              "platform": null,
+              "station_code": "KDB",
+              "tiploc_code": "KIDBROK",
+              "aimed_arrival_time": "18:50",
+              "aimed_departure_time": "18:50",
+              "aimed_pass_time": null
+            }
+          ]
+        },
+        "status": "STARTS HERE",
+        "expected_arrival_time": null,
+        "expected_departure_time": "18:25",
+        "best_arrival_estimate_mins": null,
+        "best_departure_estimate_mins": 55
+      }
+    ]
+  }
+}

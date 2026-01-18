@@ -1,3 +1,4 @@
+import { ToastProvider } from "@/components/ui";
 import { theme } from "@/lib/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -9,7 +10,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5, // 5 minutes
-      retry: 2,
+      retry: false, // Don't auto-retry, show retry button instead
     },
   },
 });
@@ -18,13 +19,16 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
-        <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: theme.background.DEFAULT },
-          }}
-        />
+        <ToastProvider>
+          <StatusBar style="light" />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: theme.background.DEFAULT },
+              animation: "slide_from_right",
+            }}
+          />
+        </ToastProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
   );

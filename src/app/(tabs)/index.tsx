@@ -1,12 +1,20 @@
 import { StationAutocomplete } from "@/components/features";
 import { ScreenLayout } from "@/components/layout";
-import { Button, PressableCard, TimePicker } from "@/components/ui";
+import {
+  AnimatedPressable,
+  Button,
+  EmptyState,
+  FadeIn,
+  PressableCard,
+  SlideIn,
+  TimePicker,
+} from "@/components/ui";
 import { theme } from "@/lib/theme";
 import { useSearchStore } from "@/stores";
 import { router } from "expo-router";
-import { ArrowDownUp, ArrowRight, Clock } from "lucide-react-native";
+import { ArrowDownUp, ArrowRight, Clock, Search } from "lucide-react-native";
 import { useCallback, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const {
@@ -72,84 +80,110 @@ export default function HomeScreen() {
         keyboardShouldPersistTaps="handled"
       >
         {/* Station Selection */}
-        <View className="gap-2">
-          <StationAutocomplete
-            label="From"
-            placeholder="Departing from..."
-            value={fromStation}
-            onSelect={setFromStation}
-          />
+        <SlideIn direction="top" delay={0}>
+          <View className="gap-2">
+            <StationAutocomplete
+              label="From"
+              placeholder="Departing from..."
+              value={fromStation}
+              onSelect={setFromStation}
+            />
 
-          {/* Swap Stations Button */}
-          {fromStation && toStation && (
-            <Pressable
-              onPress={handleSwapStations}
-              className="self-center -my-1 p-2 bg-surface rounded-full active:bg-surface-hover"
-              accessibilityLabel="Swap stations"
-            >
-              <ArrowDownUp size={20} color={theme.text.muted} />
-            </Pressable>
-          )}
+            {/* Swap Stations Button */}
+            {fromStation && toStation && (
+              <AnimatedPressable
+                onPress={handleSwapStations}
+                className="self-center -my-1 p-2 bg-surface rounded-full"
+                accessibilityLabel="Swap stations"
+                pressedScale={0.9}
+              >
+                <ArrowDownUp size={20} color={theme.text.muted} />
+              </AnimatedPressable>
+            )}
 
-          <StationAutocomplete
-            label="To"
-            placeholder="Arriving at..."
-            value={toStation}
-            onSelect={setToStation}
-          />
-        </View>
+            <StationAutocomplete
+              label="To"
+              placeholder="Arriving at..."
+              value={toStation}
+              onSelect={setToStation}
+            />
+          </View>
+        </SlideIn>
 
         {/* Time Picker */}
-        <View className="mt-4">
-          <TimePicker label="When" value={when} onChange={setWhen} />
-        </View>
+        <SlideIn direction="bottom" delay={100}>
+          <View className="mt-4">
+            <TimePicker label="When" value={when} onChange={setWhen} />
+          </View>
+        </SlideIn>
 
         {/* Search Button */}
-        <View className="mt-6">
-          <Button
-            title="Search Trains"
-            onPress={handleSearch}
-            disabled={!canSearch}
-            loading={isSearching}
-          />
-        </View>
+        <FadeIn delay={200}>
+          <View className="mt-6">
+            <Button
+              title="Search Trains"
+              onPress={handleSearch}
+              disabled={!canSearch}
+              loading={isSearching}
+              icon={Search}
+              size="lg"
+            />
+          </View>
+        </FadeIn>
 
         {/* Recent Searches */}
-        {recentSearches.length > 0 && (
-          <View className="mt-8">
-            <Text className="text-text-secondary text-sm font-medium mb-3">
-              Recent Searches
-            </Text>
-            <View className="gap-2">
-              {recentSearches.slice(0, 5).map((search, index) => (
-                <PressableCard
-                  key={`${search.from.crs}-${search.to.crs}-${index}`}
-                  onPress={() =>
-                    handleRecentSearchPress(search.from, search.to)
-                  }
-                  variant="elevated"
-                >
-                  <View className="flex-row items-center">
-                    <View className="flex-1">
-                      <View className="flex-row items-center gap-2">
-                        <Text className="text-text text-base font-medium">
-                          {search.from.name}
-                        </Text>
-                        <ArrowRight size={16} color={theme.text.muted} />
-                        <Text className="text-text text-base font-medium">
-                          {search.to.name}
-                        </Text>
+        {recentSearches.length > 0 ? (
+          <FadeIn delay={300}>
+            <View className="mt-8">
+              <Text className="text-text-secondary text-sm font-medium mb-3">
+                Recent Searches
+              </Text>
+              <View className="gap-2">
+                {recentSearches.slice(0, 5).map((search, index) => (
+                  <SlideIn
+                    key={`${search.from.crs}-${search.to.crs}-${index}`}
+                    direction="left"
+                    delay={350 + index * 50}
+                  >
+                    <PressableCard
+                      onPress={() =>
+                        handleRecentSearchPress(search.from, search.to)
+                      }
+                      variant="elevated"
+                    >
+                      <View className="flex-row items-center">
+                        <View className="flex-1">
+                          <View className="flex-row items-center gap-2">
+                            <Text className="text-text text-base font-medium">
+                              {search.from.name}
+                            </Text>
+                            <ArrowRight size={16} color={theme.text.muted} />
+                            <Text className="text-text text-base font-medium">
+                              {search.to.name}
+                            </Text>
+                          </View>
+                          <Text className="text-text-muted text-xs mt-1">
+                            {search.from.crs} → {search.to.crs}
+                          </Text>
+                        </View>
+                        <Clock size={16} color={theme.text.muted} />
                       </View>
-                      <Text className="text-text-muted text-xs mt-1">
-                        {search.from.crs} → {search.to.crs}
-                      </Text>
-                    </View>
-                    <Clock size={16} color={theme.text.muted} />
-                  </View>
-                </PressableCard>
-              ))}
+                    </PressableCard>
+                  </SlideIn>
+                ))}
+              </View>
             </View>
-          </View>
+          </FadeIn>
+        ) : (
+          <FadeIn delay={300}>
+            <View className="mt-8">
+              <EmptyState
+                variant="no-recent"
+                title="No recent searches"
+                description="Your recent journeys will appear here for quick access"
+              />
+            </View>
+          </FadeIn>
         )}
 
         {/* Bottom padding for scroll */}

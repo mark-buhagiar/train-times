@@ -6,6 +6,10 @@
 import { ServiceSummary, StationTimetable } from "@/types/services";
 import { apiRequest } from "./client";
 import { buildApiUrl, config } from "./config";
+import mockTimetableData from "./mock-timetable.json";
+
+// Check if mock mode is enabled via env var
+const USE_MOCK_API = process.env.EXPO_PUBLIC_USE_MOCK_API === "true";
 
 export interface StationTimetableParams {
   /** Station CRS code */
@@ -28,7 +32,11 @@ interface ApiStationTimetableResponse {
   request_time: string;
   station_name: string;
   station_code: string;
-  departures: {
+  // API may return departures or updates depending on the endpoint
+  departures?: {
+    all: ApiServiceDeparture[];
+  };
+  updates?: {
     all: ApiServiceDeparture[];
   };
 }
@@ -107,11 +115,54 @@ function normalizeStatus(
 }
 
 /**
+ * Transform API response to our types
+ */
+function transformApiResponse(
+  response: ApiStationTimetableResponse
+): StationTimetable {
+  // API may return departures or updates depending on endpoint
+  const departures = response.departures?.all || response.updates?.all || [];
+
+  const services: ServiceSummary[] = departures.map((dep) => ({
+    service: dep.service,
+    train_uid: dep.train_uid,
+    platform: dep.platform,
+    aimed_departure_time: dep.aimed_departure_time,
+    expected_departure_time: dep.expected_departure_time,
+    destination_name: dep.destination_name,
+    status: normalizeStatus(
+      dep.status,
+      dep.aimed_departure_time,
+      dep.expected_departure_time
+    ),
+    operator_name: dep.operator_name,
+  }));
+
+  return {
+    station_code: response.station_code,
+    station_name: response.station_name,
+    departures: {
+      all: services,
+    },
+  };
+}
+
+/**
  * Fetch station timetable (departures)
  */
 export async function fetchStationTimetable(
   params: StationTimetableParams
 ): Promise<StationTimetable> {
+  // Return mock data if mock mode is enabled
+  if (USE_MOCK_API) {
+    console.log("[API] Using mock timetable data");
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return transformApiResponse(
+      mockTimetableData as unknown as ApiStationTimetableResponse
+    );
+  }
+
   const {
     stationCrs,
     callingAt,
@@ -141,7 +192,8 @@ export async function fetchStationTimetable(
       .toString()
       .padStart(2, "0");
     const tzMins = (Math.abs(tzOffset) % 60).toString().padStart(2, "0");
-    const isoStr = dt.toISOString().slice(0, 19) + `${tzSign}${tzHours}:${tzMins}`;
+    const isoStr =
+      dt.toISOString().slice(0, 19) + `${tzSign}${tzHours}:${tzMins}`;
     queryParams.datetime = isoStr;
   }
 
@@ -156,27 +208,5 @@ export async function fetchStationTimetable(
 
   const response = await apiRequest<ApiStationTimetableResponse>(url);
 
-  // Transform API response to our types
-  const services: ServiceSummary[] = response.departures.all.map((dep) => ({
-    service: dep.service,
-    train_uid: dep.train_uid,
-    platform: dep.platform,
-    aimed_departure_time: dep.aimed_departure_time,
-    expected_departure_time: dep.expected_departure_time,
-    destination_name: dep.destination_name,
-    status: normalizeStatus(
-      dep.status,
-      dep.aimed_departure_time,
-      dep.expected_departure_time
-    ),
-    operator_name: dep.operator_name,
-  }));
-
-  return {
-    station_code: response.station_code,
-    station_name: response.station_name,
-    departures: {
-      all: services,
-    },
-  };
+  return transformApiResponse(response);
 }

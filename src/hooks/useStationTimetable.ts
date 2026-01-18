@@ -26,11 +26,20 @@ export function useStationTimetable({
   // Use selected time or current time
   const datetime = when ? new Date(when) : new Date();
 
-  const queryKey = ["stationTimetable", from, to, datetime.toISOString()];
+  const queryKey = ["stationTimetable", from, to, when || "now"];
+
+  console.log("[useStationTimetable] Hook called:", {
+    from,
+    to,
+    when,
+    enabled,
+    queryKey,
+  });
 
   return useQuery<StationTimetable, Error>({
     queryKey,
     queryFn: async () => {
+      console.log("[useStationTimetable] queryFn executing for:", from);
       const params: StationTimetableParams = {
         stationCrs: from,
         callingAt: to,

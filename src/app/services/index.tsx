@@ -1,12 +1,11 @@
 import { ServiceCard, ServiceCardSkeleton } from "@/components/features";
-import { ScreenLayout } from "@/components/layout";
+import { EmptyState, FadeIn, SlideIn } from "@/components/ui";
 import { useStationTimetable } from "@/hooks";
 import { theme } from "@/lib/theme";
 import { haptics } from "@/lib/utils";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { AlertCircle, RefreshCw, TrainFront } from "lucide-react-native";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
-import { FlatList, Pressable, RefreshControl, Text, View } from "react-native";
+import { FlatList, RefreshControl, Text, View } from "react-native";
 
 export default function ServicesScreen() {
   const router = useRouter();
@@ -15,9 +14,6 @@ export default function ServicesScreen() {
     to: string;
     when?: string;
   }>();
-
-  // Parse the when param - undefined means "now"
-  const whenDate = when ? new Date(when) : undefined;
 
   // Fetch station timetable
   const {
@@ -64,8 +60,9 @@ export default function ServicesScreen() {
   // Loading state
   if (isLoading && !timetable) {
     return (
-      <ScreenLayout title="Services">
-        <View className="gap-4">
+      <View className="flex-1 bg-background px-4">
+        <Stack.Screen options={{ title: "Services" }} />
+        <View className="gap-4 pt-4">
           {/* Search summary */}
           <View className="bg-surface rounded-card p-4">
             <Text className="text-text text-lg font-semibold">
@@ -83,48 +80,43 @@ export default function ServicesScreen() {
             ))}
           </View>
         </View>
-      </ScreenLayout>
+      </View>
     );
   }
 
   // Error state
   if (error) {
     return (
-      <ScreenLayout title="Services">
-        <View className="gap-4">
+      <View className="flex-1 bg-background px-4">
+        <Stack.Screen options={{ title: "Services" }} />
+        <View className="gap-4 pt-4">
           {/* Search summary */}
-          <View className="bg-surface rounded-card p-4">
-            <Text className="text-text text-lg font-semibold">
-              {from} → {to}
-            </Text>
-            <Text className="text-text-muted text-sm mt-1">
-              {formatTimeDisplay()}
-            </Text>
-          </View>
+          <SlideIn direction="top" delay={0}>
+            <View className="bg-surface rounded-2xl p-4">
+              <Text className="text-text text-lg font-semibold">
+                {from} → {to}
+              </Text>
+              <Text className="text-text-muted text-sm mt-1">
+                {formatTimeDisplay()}
+              </Text>
+            </View>
+          </SlideIn>
 
           {/* Error message */}
-          <View className="bg-surface rounded-card p-6 items-center">
-            <AlertCircle size={48} color={theme.error} />
-            <Text className="text-text text-lg font-semibold mt-4">
-              Unable to load services
-            </Text>
-            <Text className="text-text-muted text-center mt-2">
-              {error.message || "Please check your connection and try again"}
-            </Text>
-            <Pressable
-              onPress={handleRefresh}
-              className="mt-4 bg-primary px-6 py-3 rounded-button flex-row items-center"
-            >
-              <RefreshCw
-                size={18}
-                color={theme.text.DEFAULT}
-                className="mr-2"
+          <FadeIn delay={100}>
+            <View className="bg-surface rounded-2xl p-6">
+              <EmptyState
+                variant="error"
+                description={
+                  error.message || "Please check your connection and try again"
+                }
+                actionText="Try again"
+                onAction={handleRefresh}
               />
-              <Text className="text-text font-semibold ml-2">Try again</Text>
-            </Pressable>
-          </View>
+            </View>
+          </FadeIn>
         </View>
-      </ScreenLayout>
+      </View>
     );
   }
 
@@ -132,56 +124,60 @@ export default function ServicesScreen() {
   const services = timetable?.departures?.all || [];
   if (services.length === 0) {
     return (
-      <ScreenLayout title="Services">
-        <View className="gap-4">
+      <View className="flex-1 bg-background px-4">
+        <Stack.Screen options={{ title: "Services" }} />
+        <View className="gap-4 pt-4">
           {/* Search summary */}
-          <View className="bg-surface rounded-card p-4">
-            <Text className="text-text text-lg font-semibold">
-              {timetable?.station_name || from} → {to}
-            </Text>
-            <Text className="text-text-muted text-sm mt-1">
-              {formatTimeDisplay()}
-            </Text>
-          </View>
+          <SlideIn direction="top" delay={0}>
+            <View className="bg-surface rounded-2xl p-4">
+              <Text className="text-text text-lg font-semibold">
+                {timetable?.station_name || from} → {to}
+              </Text>
+              <Text className="text-text-muted text-sm mt-1">
+                {formatTimeDisplay()}
+              </Text>
+            </View>
+          </SlideIn>
 
           {/* Empty message */}
-          <View className="bg-surface rounded-card p-8 items-center">
-            <TrainFront size={64} color={theme.text.muted} />
-            <Text className="text-text text-lg font-semibold mt-4">
-              No services found
-            </Text>
-            <Text className="text-text-muted text-center mt-2">
-              There are no trains scheduled for this route at the selected time
-            </Text>
-          </View>
+          <FadeIn delay={100}>
+            <View className="bg-surface rounded-2xl p-4">
+              <EmptyState variant="no-services" />
+            </View>
+          </FadeIn>
         </View>
-      </ScreenLayout>
+      </View>
     );
   }
 
   // Success state with services list
   return (
-    <ScreenLayout title="Services">
+    <View className="flex-1 bg-background px-4">
+      <Stack.Screen options={{ title: "Services" }} />
       <FlatList
         data={services}
         keyExtractor={(item) => item.service}
-        renderItem={({ item }) => (
-          <ServiceCard
-            service={item}
-            onPress={() => handleServicePress(item.service)}
-          />
+        renderItem={({ item, index }) => (
+          <SlideIn direction="bottom" delay={index * 50}>
+            <ServiceCard
+              service={item}
+              onPress={() => handleServicePress(item.service)}
+            />
+          </SlideIn>
         )}
-        contentContainerClassName="gap-3 pb-6"
+        contentContainerClassName="gap-3 pb-6 pt-4"
         ListHeaderComponent={
-          <View className="bg-surface rounded-card p-4 mb-2">
-            <Text className="text-text text-lg font-semibold">
-              {timetable?.station_name || from} → {to}
-            </Text>
-            <Text className="text-text-muted text-sm mt-1">
-              {formatTimeDisplay()} • {services.length} service
-              {services.length !== 1 ? "s" : ""}
-            </Text>
-          </View>
+          <SlideIn direction="top" delay={0}>
+            <View className="bg-surface rounded-2xl p-4 mb-2">
+              <Text className="text-text text-lg font-semibold">
+                {timetable?.station_name || from} → {to}
+              </Text>
+              <Text className="text-text-muted text-sm mt-1">
+                {formatTimeDisplay()} • {services.length} service
+                {services.length !== 1 ? "s" : ""}
+              </Text>
+            </View>
+          </SlideIn>
         }
         refreshControl={
           <RefreshControl
@@ -193,6 +189,6 @@ export default function ServicesScreen() {
         }
         showsVerticalScrollIndicator={false}
       />
-    </ScreenLayout>
+    </View>
   );
 }
