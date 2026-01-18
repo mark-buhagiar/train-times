@@ -1,19 +1,21 @@
 {
   "expo": {
-    "name": "train-times-app",
-    "slug": "train-times-app",
+    "name": "Train Times",
+    "slug": "train-times",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
+    "scheme": "train-times",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0A1628"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.traintimes.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +26,13 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "name": "Train Times",
+      "shortName": "Train Times",
+      "description": "Find your train times quickly",
+      "backgroundColor": "#0A1628",
+      "themeColor": "#0A1628"
     }
   }
 }

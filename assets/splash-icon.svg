@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle - Navy blue -->
+  <circle cx="100" cy="100" r="90" fill="#0A1628"/>
+  <!-- Inner circle - Lighter blue (80% of parent diameter = 72 radius) -->
+  <circle cx="100" cy="100" r="72" fill="#3B82F6"/>
+</svg>
