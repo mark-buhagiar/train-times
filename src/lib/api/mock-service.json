@@ -1,0 +1,59 @@
+{
+  "request_time": "2022-08-04T15:23:18+01:00",
+  "service": "25505005",
+  "train_uid": "L03365",
+  "headcode": "1024",
+  "toc": {
+    "atoc_code": "SR"
+  },
+  "train_status": "1",
+  "mode": "train",
+  "category": "OO",
+  "operator": "13",
+  "operator_name": "Scotrail",
+  "stop_of_interest": "PAD",
+  "origin_name": "London Paddington",
+  "destination_name": "Heathrow Airport Terminal 5",
+  "stops": [
+    {
+      "station_code": "PAD",
+      "tiploc_code": "PADTON",
+      "station_name": "London Paddington",
+      "status": "LATE",
+      "stop_type": "LO",
+      "platform": "3",
+      "aimed_arrival_date": "2022-08-04",
+      "aimed_arrival_time": "15:23",
+      "aimed_pass_date": "2022-08-04",
+      "aimed_pass_time": "15:23",
+      "aimed_departure_date": "2022-08-04",
+      "aimed_departure_time": "15:24",
+      "expected_arrival_date": "2022-08-04",
+      "expected_arrival_time": "15:24",
+      "expected_pass_date": "2022-08-04",
+      "expected_pass_time": "15:24",
+      "expected_departure_date": "2022-08-04",
+      "expected_departure_time": "15:25"
+    },
+    {
+      "station_code": "EAL",
+      "tiploc_code": "EALINGB",
+      "station_name": "Ealing Broadway",
+      "status": "LATE",
+      "stop_type": "LI",
+      "platform": "1",
+      "aimed_arrival_date": "2022-08-04",
+      "aimed_arrival_time": "15:33",
+      "aimed_pass_date": "2022-08-04",
+      "aimed_pass_time": "15:33",
+      "aimed_departure_date": "2022-08-04",
+      "aimed_departure_time": "15:34",
+      "expected_arrival_date": "2022-08-04",
+      "expected_arrival_time": "15:34",
+      "expected_pass_date": "2022-08-04",
+      "expected_pass_time": "15:34",
+      "expected_departure_date": "2022-08-04",
+      "expected_departure_time": "15:35"
+    }
+  ]
+}

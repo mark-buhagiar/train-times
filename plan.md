@@ -95,29 +95,29 @@ This document outlines the implementation plan for the Train Times iOS app.
 - [x] Handle loading and error states
 - [x] Pull-to-refresh functionality
 
-### Phase 7: Service Detail
+### Phase 7: Service Detail ✅
 
 **Goal**: Show detailed service information with stops.
 
-- [ ] Create API service for service timetable
-- [ ] Build Service detail screen
-- [ ] Display full stops list with highlighting for FROM/TO
-- [ ] Show platform and expected times
-- [ ] Implement "Add to Favourites" action
-  - [ ] Store service template URL in MMKV
-  - [ ] Haptic feedback on save
+- [x] Create API service for service timetable
+- [x] Build Service detail screen
+- [x] Display full stops list with highlighting for FROM/TO
+- [x] Show platform and expected times
+- [x] Implement "Add to Favourites" action
+  - [x] Store service template URL in MMKV
+  - [x] Haptic feedback on save
 
-### Phase 8: My Services (Favourites)
+### Phase 8: My Services (Favourites) ✅
 
 **Goal**: Manage and display saved services.
 
-- [ ] Build My Services screen
-- [ ] Load favourite services from MMKV
-- [ ] Fetch live data for each favourite (with date substitution)
-- [ ] Implement remove from favourites
-  - [ ] Swipe-to-delete
-  - [ ] Long-press menu option
-- [ ] Empty state with prompt to add services
+- [x] Build My Services screen
+- [x] Load favourite services from MMKV
+- [x] Fetch live data for each favourite (with date substitution)
+- [x] Implement remove from favourites
+  - [x] Swipe-to-delete
+  - [x] Long-press menu option
+- [x] Empty state with prompt to add services
 
 ### Phase 9: Settings
 

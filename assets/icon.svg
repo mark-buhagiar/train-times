@@ -1,0 +1,131 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGradient5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f1a"/>
+      <stop offset="100%" style="stop-color:#141e30"/>
+    </linearGradient>
+    
+    <!-- Amber LED color -->
+    <linearGradient id="amberGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="100%" style="stop-color:#f59e0b"/>
+    </linearGradient>
+    
+    <!-- Glow filter for lit LEDs -->
+    <filter id="ledGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="224" fill="url(#bgGradient5)"/>
+  
+  <!-- Departure board frame -->
+  <rect x="140" y="200" width="744" height="624" rx="24" fill="#0d1117" stroke="#1e293b" stroke-width="4"/>
+  
+  <!-- Inner screen area -->
+  <rect x="170" y="230" width="684" height="564" rx="12" fill="#000"/>
+  
+  <!-- Row 1 - top of T (all lit) -->
+  <circle cx="312" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="362" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="412" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="462" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="662" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="712" cy="320" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  
+  <!-- Row 2 - second row of T top (all lit) -->
+  <circle cx="312" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="362" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="412" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="462" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="662" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="712" cy="370" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  
+  <!-- Stem of T - rows 3-9 -->
+  <circle cx="312" cy="420" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="420" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="420" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="420" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="420" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="420" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="420" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="420" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="420" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <circle cx="312" cy="470" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="470" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="470" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="470" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="470" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="470" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="470" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="470" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="470" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <circle cx="312" cy="520" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="520" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="520" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="520" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="520" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="520" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="520" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="520" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="520" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <circle cx="312" cy="570" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="570" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="570" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="570" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="570" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="570" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="570" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="570" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="570" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <circle cx="312" cy="620" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="620" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="620" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="620" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="620" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="620" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="620" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="620" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="620" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <circle cx="312" cy="670" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="670" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="670" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="670" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="670" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="670" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="670" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="670" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="670" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <circle cx="312" cy="720" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="362" cy="720" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="412" cy="720" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="462" cy="720" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="512" cy="720" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="562" cy="720" r="18" fill="url(#amberGlow)" filter="url(#ledGlow)"/>
+  <circle cx="612" cy="720" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="662" cy="720" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  <circle cx="712" cy="720" r="18" fill="url(#amberGlow)" opacity="0.15"/>
+  
+  <!-- Small indicator lights at bottom -->
+  <circle cx="220" cy="760" r="8" fill="#22c55e"/>
+  <circle cx="250" cy="760" r="8" fill="#22c55e" opacity="0.3"/>
+  <circle cx="280" cy="760" r="8" fill="#22c55e" opacity="0.3"/>
+</svg>

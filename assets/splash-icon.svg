@@ -1,6 +1,81 @@
 <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Outer circle - Navy blue -->
-  <circle cx="100" cy="100" r="90" fill="#0A1628"/>
-  <!-- Inner circle - Lighter blue (80% of parent diameter = 72 radius) -->
-  <circle cx="100" cy="100" r="72" fill="#3B82F6"/>
+  <defs>
+    <!-- LED glow effect -->
+    <filter id="splashLedGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Amber LED gradient -->
+    <linearGradient id="splashAmberLed" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFD93D"/>
+      <stop offset="50%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#E8940C"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Dot matrix "T" - 9 columns x 9 rows -->
+  <!-- Each LED is 16x16 with 4px gap = 20px spacing -->
+  <!-- Grid starts at x=18, y=18 to center 180px grid in 200px viewBox -->
+  <g filter="url(#splashLedGlow)">
+    <!-- Row 1 - Full top bar (all 9 LEDs) -->
+    <rect x="18" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="38" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="58" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="78" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="138" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="158" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="178" y="18" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 2 - Full top bar (all 9 LEDs) - thick top -->
+    <rect x="18" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="38" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="58" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="78" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="138" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="158" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="178" y="38" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 3 - Center stem (3 LEDs) -->
+    <rect x="78" y="58" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="58" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="58" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 4 - Center stem (3 LEDs) -->
+    <rect x="78" y="78" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="78" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="78" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 5 - Center stem (3 LEDs) -->
+    <rect x="78" y="98" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="98" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="98" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 6 - Center stem (3 LEDs) -->
+    <rect x="78" y="118" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="118" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="118" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 7 - Center stem (3 LEDs) -->
+    <rect x="78" y="138" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="138" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="138" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 8 - Center stem (3 LEDs) -->
+    <rect x="78" y="158" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="158" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="158" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    
+    <!-- Row 9 - Center stem (3 LEDs) -->
+    <rect x="78" y="178" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="98" y="178" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+    <rect x="118" y="178" width="16" height="16" rx="3" fill="url(#splashAmberLed)"/>
+  </g>
 </svg>

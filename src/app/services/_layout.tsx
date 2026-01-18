@@ -9,10 +9,10 @@ function BackButton() {
   return (
     <Pressable
       onPress={() => (router.canGoBack() ? router.back() : router.replace("/"))}
-      className="flex-row items-center -ml-2"
+      className="flex-row items-center -ml-1 py-2 pr-4"
     >
-      <ChevronLeft size={24} color={theme.primary.DEFAULT} />
-      <Text className="text-primary text-base">Back</Text>
+      <ChevronLeft size={22} color={theme.primary.DEFAULT} />
+      <Text className="text-primary text-base font-medium">Back</Text>
     </Pressable>
   );
 }
@@ -23,12 +23,14 @@ export default function ServicesLayout() {
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: theme.surface.DEFAULT,
+          backgroundColor: theme.background.DEFAULT,
         },
         headerTintColor: theme.text.DEFAULT,
         headerTitleStyle: {
-          fontWeight: "600",
+          fontWeight: "700",
+          fontSize: 18,
         },
+        headerShadowVisible: false,
         contentStyle: {
           backgroundColor: theme.background.DEFAULT,
         },

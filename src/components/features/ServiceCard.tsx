@@ -6,7 +6,8 @@
 import { theme } from "@/lib/theme";
 import { haptics } from "@/lib/utils/haptics";
 import { ServiceSummary } from "@/types/services";
-import { ChevronRight } from "lucide-react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { ChevronRight, Clock, MapPin } from "lucide-react-native";
 import { Platform, Pressable, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -53,20 +54,6 @@ function mapStatus(
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-// iOS-style shadow
-const cardShadow = Platform.select({
-  ios: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-  },
-  android: {
-    elevation: 3,
-  },
-  default: {},
-});
-
 export function ServiceCard({ service, onPress }: ServiceCardProps) {
   const {
     aimed_departure_time,
@@ -80,10 +67,10 @@ export function ServiceCard({ service, onPress }: ServiceCardProps) {
   const scale = useSharedValue(1);
 
   const delayText = getDelayText(aimed_departure_time, expected_departure_time);
-  const displayTime = expected_departure_time || aimed_departure_time;
   const badgeStatus = mapStatus(status);
   const isDelayed = badgeStatus === "delayed";
   const isCancelled = badgeStatus === "cancelled";
+  const isOnTime = badgeStatus === "on-time";
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -102,72 +89,102 @@ export function ServiceCard({ service, onPress }: ServiceCardProps) {
     onPress?.();
   };
 
+  // Get status color for accents
+  const statusColor = isCancelled
+    ? theme.error
+    : isDelayed
+      ? theme.warning
+      : theme.success;
+
   return (
     <AnimatedPressable
       onPress={handlePress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      style={[cardShadow, animatedStyle]}
-      className={`bg-surface rounded-2xl p-4 ${Platform.OS === "web" ? "hover:bg-surface-hover transition-colors shadow-sm" : ""}`}
+      style={animatedStyle}
+      className={`rounded-3xl overflow-hidden ${Platform.OS === "web" ? "transition-all hover:scale-[1.01]" : ""}`}
       accessibilityRole="button"
-      accessibilityLabel={`Train to ${destination_name} at ${displayTime}`}
+      accessibilityLabel={`Train to ${destination_name} at ${aimed_departure_time}`}
     >
-      <View className="flex-row items-start justify-between">
-        {/* Left side: Time and destination */}
-        <View className="flex-1 mr-3">
-          {/* Time */}
-          <View className="flex-row items-baseline gap-2">
-            <Text
-              className={`text-2xl font-bold ${
-                isCancelled ? "text-error line-through" : "text-text"
-              }`}
+      <LinearGradient
+        colors={["rgba(255,255,255,0.06)", "rgba(255,255,255,0.02)"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{
+          borderWidth: 1,
+          borderColor: "rgba(255,255,255,0.08)",
+          borderRadius: 24,
+          padding: 16,
+        }}
+      >
+        <View className="flex-row items-center">
+          {/* Time Column */}
+          <View className="items-center mr-4">
+            <View
+              className="w-16 h-16 rounded-2xl items-center justify-center mb-1"
+              style={{ backgroundColor: `${statusColor}15` }}
             >
-              {aimed_departure_time}
-            </Text>
-            {isDelayed && expected_departure_time && (
-              <Text className="text-warning text-lg font-semibold">
-                → {expected_departure_time}
+              <Text
+                className={`text-2xl font-bold ${isCancelled ? "line-through opacity-50" : ""}`}
+                style={{
+                  color: isCancelled ? theme.error : theme.text.DEFAULT,
+                }}
+              >
+                {aimed_departure_time}
               </Text>
+            </View>
+            {isDelayed && expected_departure_time && (
+              <View className="flex-row items-center">
+                <Clock size={12} color={theme.warning} />
+                <Text className="text-warning text-xs font-semibold ml-1">
+                  {expected_departure_time}
+                </Text>
+              </View>
             )}
-            {delayText && (
-              <Text className="text-warning text-sm">({delayText})</Text>
+            {delayText && !isDelayed && (
+              <Text className="text-warning text-xs">{delayText}</Text>
             )}
           </View>
 
-          {/* Destination */}
-          <Text className="text-text text-base mt-1" numberOfLines={1}>
-            {destination_name}
-          </Text>
+          {/* Details Column */}
+          <View className="flex-1">
+            <View className="flex-row items-center gap-2 mb-1">
+              <StatusBadge status={badgeStatus} size="sm" />
+              {platform && (
+                <View className="flex-row items-center bg-white/5 rounded-lg px-2 py-1">
+                  <Text className="text-text-muted text-xs mr-1">Plat</Text>
+                  <Text className="text-text font-bold text-sm">
+                    {platform}
+                  </Text>
+                </View>
+              )}
+            </View>
 
-          {/* Operator */}
-          {operator_name && (
-            <Text className="text-text-muted text-sm mt-0.5">
-              {operator_name}
-            </Text>
-          )}
-        </View>
-
-        {/* Right side: Platform and status */}
-        <View className="items-end gap-2">
-          <StatusBadge status={badgeStatus} size="sm" />
-
-          {platform && (
-            <View className="flex-row items-center">
-              <Text className="text-text-muted text-sm mr-1">Platform</Text>
-              <Text className="text-text font-semibold text-lg">
-                {platform}
+            <View className="flex-row items-center mt-1">
+              <MapPin size={14} color={theme.primary.DEFAULT} />
+              <Text
+                className="text-text text-base font-semibold ml-2"
+                numberOfLines={1}
+              >
+                {destination_name}
               </Text>
+            </View>
+
+            {operator_name && (
+              <Text className="text-text-muted text-sm mt-1" numberOfLines={1}>
+                {operator_name}
+              </Text>
+            )}
+          </View>
+
+          {/* Chevron */}
+          {onPress && (
+            <View className="w-8 h-8 rounded-full bg-white/5 items-center justify-center ml-2">
+              <ChevronRight size={18} color={theme.text.muted} />
             </View>
           )}
         </View>
-      </View>
-
-      {/* Chevron indicator */}
-      {onPress && (
-        <View className="absolute right-2 top-0 bottom-0 justify-center">
-          <ChevronRight size={20} color={theme.text.muted} />
-        </View>
-      )}
+      </LinearGradient>
     </AnimatedPressable>
   );
 }
@@ -177,17 +194,30 @@ export function ServiceCard({ service, onPress }: ServiceCardProps) {
  */
 export function ServiceCardSkeleton() {
   return (
-    <View className="bg-surface rounded-2xl p-4">
-      <View className="flex-row items-start justify-between">
+    <View
+      className="rounded-3xl overflow-hidden"
+      style={{
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.08)",
+        backgroundColor: "rgba(255,255,255,0.03)",
+      }}
+    >
+      <View className="p-4 flex-row items-center">
+        {/* Time skeleton */}
+        <View className="w-16 h-16 rounded-2xl bg-white/5 mr-4" />
+
+        {/* Details skeleton */}
         <View className="flex-1">
-          <View className="h-8 w-20 bg-surface-hover rounded mb-2" />
-          <View className="h-5 w-40 bg-surface-hover rounded mb-1" />
-          <View className="h-4 w-24 bg-surface-hover rounded" />
+          <View className="flex-row items-center gap-2 mb-2">
+            <View className="h-5 w-16 bg-white/5 rounded-full" />
+            <View className="h-5 w-12 bg-white/5 rounded-lg" />
+          </View>
+          <View className="h-5 w-40 bg-white/5 rounded mb-1" />
+          <View className="h-4 w-28 bg-white/5 rounded" />
         </View>
-        <View className="items-end gap-2">
-          <View className="h-6 w-16 bg-surface-hover rounded-badge" />
-          <View className="h-5 w-12 bg-surface-hover rounded" />
-        </View>
+
+        {/* Chevron skeleton */}
+        <View className="w-8 h-8 rounded-full bg-white/5" />
       </View>
     </View>
   );

@@ -105,7 +105,7 @@ export function TimePicker({ label, value, onChange, error }: TimePickerProps) {
   return (
     <>
       {/* Trigger Button */}
-      <View className="mb-4">
+      <View>
         {label && (
           <Text className="text-text-secondary text-sm mb-2 font-medium">
             {label}
@@ -114,18 +114,19 @@ export function TimePicker({ label, value, onChange, error }: TimePickerProps) {
         <Pressable
           onPress={handleOpen}
           className={`
-            h-[50px] px-4 rounded-[10px] bg-surface flex-row items-center
-            border ${error ? "border-error" : "border-border"}
+            h-14 px-4 rounded-2xl flex-row items-center
+            border ${error ? "border-error" : "border-white/10"}
           `}
+          style={{
+            backgroundColor: "rgba(255,255,255,0.05)",
+          }}
           accessibilityLabel={label || "Select time"}
           accessibilityRole="button"
         >
-          <Clock size={20} color={theme.text.muted} />
-          <Text
-            className={`flex-1 ml-3 text-base ${
-              value === null ? "text-text" : "text-text"
-            }`}
-          >
+          <View className="w-8 h-8 rounded-xl bg-primary/20 items-center justify-center mr-3">
+            <Clock size={16} color={theme.primary.DEFAULT} />
+          </View>
+          <Text className="flex-1 text-base font-medium text-text">
             {selectedOption.label}
           </Text>
           <ChevronDown size={20} color={theme.text.muted} />

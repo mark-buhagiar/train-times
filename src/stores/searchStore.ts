@@ -22,6 +22,7 @@ interface SearchState {
   setToStation: (station: Station | null) => void;
   setWhen: (when: string | null) => void;
   addRecentSearch: (from: Station, to: Station) => void;
+  removeRecentSearch: (from: Station, to: Station) => void;
   clearSearch: () => void;
 }
 
@@ -47,6 +48,14 @@ export const useSearchStore = create<SearchState>()(
           ...filtered,
         ].slice(0, 10); // Keep last 10 searches
         set({ recentSearches: updated });
+      },
+
+      removeRecentSearch: (from, to) => {
+        const current = get().recentSearches;
+        const filtered = current.filter(
+          (s) => !(s.from.crs === from.crs && s.to.crs === to.crs)
+        );
+        set({ recentSearches: filtered });
       },
 
       clearSearch: () =>

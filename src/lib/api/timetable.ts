@@ -1,11 +1,17 @@
 /**
- * Station Timetable API service
- * Fetches train departures from a station
+ * Station & Service Timetable API services
+ * Fetches train departures from a station and individual service details
  */
 
-import { ServiceSummary, StationTimetable } from "@/types/services";
+import {
+  ServiceDetail,
+  ServiceStop,
+  ServiceSummary,
+  StationTimetable,
+} from "@/types/services";
 import { apiRequest } from "./client";
 import { buildApiUrl, config } from "./config";
+import mockServiceData from "./mock-service.json";
 import mockTimetableData from "./mock-timetable.json";
 
 // Check if mock mode is enabled via env var
@@ -209,4 +215,134 @@ export async function fetchStationTimetable(
   const response = await apiRequest<ApiStationTimetableResponse>(url);
 
   return transformApiResponse(response);
+}
+
+// ============================================================
+// Service Timetable (individual service details with stops)
+// ============================================================
+
+interface ApiServiceTimetableResponse {
+  request_time: string;
+  service: string;
+  train_uid: string;
+  headcode?: string;
+  train_status?: string;
+  mode: string;
+  category?: string;
+  operator?: string;
+  operator_name?: string;
+  origin_name: string;
+  destination_name: string;
+  stop_of_interest?: string;
+  toc?: {
+    atoc_code: string;
+  };
+  stops: Array<{
+    station_code: string;
+    tiploc_code?: string;
+    station_name: string;
+    stop_type?: string;
+    platform?: string;
+    status?: string;
+    aimed_departure_date?: string;
+    aimed_departure_time?: string;
+    expected_departure_date?: string;
+    expected_departure_time?: string;
+    aimed_arrival_date?: string;
+    aimed_arrival_time?: string;
+    expected_arrival_date?: string;
+    expected_arrival_time?: string;
+    aimed_pass_date?: string;
+    aimed_pass_time?: string;
+    expected_pass_date?: string;
+    expected_pass_time?: string;
+  }>;
+}
+
+/**
+ * Transform API service response to our types
+ */
+function transformServiceResponse(
+  response: ApiServiceTimetableResponse
+): ServiceDetail {
+  const stops: ServiceStop[] = response.stops.map((stop) => ({
+    station_code: stop.station_code,
+    tiploc_code: stop.tiploc_code,
+    station_name: stop.station_name,
+    stop_type: stop.stop_type,
+    platform: stop.platform,
+    status: stop.status,
+    aimed_departure_date: stop.aimed_departure_date,
+    aimed_departure_time: stop.aimed_departure_time,
+    expected_departure_date: stop.expected_departure_date,
+    expected_departure_time: stop.expected_departure_time,
+    aimed_arrival_date: stop.aimed_arrival_date,
+    aimed_arrival_time: stop.aimed_arrival_time,
+    expected_arrival_date: stop.expected_arrival_date,
+    expected_arrival_time: stop.expected_arrival_time,
+    aimed_pass_date: stop.aimed_pass_date,
+    aimed_pass_time: stop.aimed_pass_time,
+    expected_pass_date: stop.expected_pass_date,
+    expected_pass_time: stop.expected_pass_time,
+  }));
+
+  return {
+    service: response.service,
+    train_uid: response.train_uid,
+    headcode: response.headcode,
+    request_time: response.request_time,
+    mode: response.mode,
+    category: response.category,
+    operator: response.operator,
+    operator_name: response.operator_name,
+    origin_name: response.origin_name,
+    destination_name: response.destination_name,
+    stop_of_interest: response.stop_of_interest,
+    toc: response.toc,
+    stops,
+  };
+}
+
+export interface ServiceTimetableParams {
+  /** Service ID from the timetable */
+  serviceId: string;
+  /** Optional date for the service (defaults to today) */
+  date?: Date;
+}
+
+/**
+ * Fetch service timetable (detailed service with all stops)
+ */
+export async function fetchServiceTimetable(
+  params: ServiceTimetableParams
+): Promise<ServiceDetail> {
+  // Return mock data if mock mode is enabled
+  if (USE_MOCK_API) {
+    console.log("[API] Using mock service data");
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return transformServiceResponse(
+      mockServiceData as unknown as ApiServiceTimetableResponse
+    );
+  }
+
+  const { serviceId, date } = params;
+
+  const queryParams: Record<string, string> = {
+    live: "true",
+  };
+
+  // Add date if specified
+  if (date) {
+    const dateStr = date.toISOString().split("T")[0]; // YYYY-MM-DD
+    queryParams.date = dateStr;
+  }
+
+  const url = buildApiUrl(
+    config.endpoints.serviceTimetable(serviceId),
+    queryParams
+  );
+
+  const response = await apiRequest<ApiServiceTimetableResponse>(url);
+
+  return transformServiceResponse(response);
 }

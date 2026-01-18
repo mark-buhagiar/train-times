@@ -26,11 +26,21 @@ function WebSidebar({ children }: { children: React.ReactNode }) {
   return (
     <View className="flex-1 flex-row bg-background">
       {/* Sidebar */}
-      <View className="w-64 bg-surface border-r border-border pt-6">
+      <View
+        className="w-64 pt-6"
+        style={{
+          backgroundColor: "rgba(255,255,255,0.02)",
+          borderRightWidth: 1,
+          borderRightColor: "rgba(255,255,255,0.05)",
+        }}
+      >
         {/* App Title */}
-        <Text className="text-text text-xl font-bold px-6 mb-8">
-          Train Times
-        </Text>
+        <View className="px-6 mb-8">
+          <Text className="text-primary text-sm font-semibold tracking-widest uppercase mb-1">
+            UK Trains
+          </Text>
+          <Text className="text-text text-2xl font-bold">Train Times</Text>
+        </View>
 
         {/* Navigation Items */}
         <View className="gap-1 px-3">
@@ -44,9 +54,18 @@ function WebSidebar({ children }: { children: React.ReactNode }) {
               <Pressable
                 key={item.name}
                 onPress={() => router.push(item.href as any)}
-                className={`flex-row items-center gap-3 px-3 py-3 rounded-lg ${
-                  isActive ? "bg-primary-muted" : "hover:bg-surface-hover"
+                className={`flex-row items-center gap-3 px-4 py-3 rounded-xl ${
+                  isActive ? "" : "hover:bg-white/5"
                 }`}
+                style={
+                  isActive
+                    ? {
+                        backgroundColor: `${theme.primary.DEFAULT}20`,
+                        borderWidth: 1,
+                        borderColor: `${theme.primary.DEFAULT}30`,
+                      }
+                    : {}
+                }
               >
                 <Icon
                   color={isActive ? theme.primary.DEFAULT : theme.text.muted}
@@ -104,11 +123,16 @@ export default function TabLayout() {
         tabBarInactiveTintColor: theme.text.muted,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: theme.surface.DEFAULT,
-          borderTopColor: theme.border.DEFAULT,
-          height: 83,
-          paddingBottom: 20,
-          paddingTop: 8,
+          backgroundColor: "rgba(10, 15, 26, 0.95)",
+          borderTopColor: "rgba(255,255,255,0.05)",
+          borderTopWidth: 1,
+          height: 88,
+          paddingBottom: 24,
+          paddingTop: 12,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: "600",
         },
       }}
     >

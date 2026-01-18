@@ -1,9 +1,17 @@
 import { ServiceCard, ServiceCardSkeleton } from "@/components/features";
-import { EmptyState, FadeIn, SlideIn } from "@/components/ui";
+import {
+  BackgroundOrbs,
+  EmptyState,
+  FadeIn,
+  GlassCard,
+  GradientBackground,
+  SlideIn,
+} from "@/components/ui";
 import { useStationTimetable } from "@/hooks";
 import { theme } from "@/lib/theme";
 import { haptics } from "@/lib/utils";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { ArrowRight, Train } from "lucide-react-native";
 import { useCallback } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 
@@ -57,54 +65,71 @@ export default function ServicesScreen() {
     return `${date.toLocaleDateString([], { weekday: "short", day: "numeric", month: "short" })} at ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
   };
 
+  // Journey summary header component
+  const JourneySummary = ({
+    stationName,
+    serviceCount,
+  }: {
+    stationName?: string;
+    serviceCount?: number;
+  }) => (
+    <SlideIn direction="top" delay={0}>
+      <GlassCard intensity="medium" className="mb-4">
+        <View className="flex-row items-center">
+          <View className="w-12 h-12 rounded-2xl bg-primary/20 items-center justify-center mr-4">
+            <Train size={24} color={theme.primary.DEFAULT} />
+          </View>
+          <View className="flex-1">
+            <View className="flex-row items-center gap-2">
+              <Text className="text-text text-lg font-bold">
+                {stationName || from}
+              </Text>
+              <View className="w-6 h-6 rounded-full bg-primary/20 items-center justify-center">
+                <ArrowRight size={14} color={theme.primary.DEFAULT} />
+              </View>
+              <Text className="text-text text-lg font-bold">{to}</Text>
+            </View>
+            <Text className="text-text-muted text-sm mt-1">
+              {formatTimeDisplay()}
+              {serviceCount !== undefined &&
+                ` • ${serviceCount} service${serviceCount !== 1 ? "s" : ""}`}
+            </Text>
+          </View>
+        </View>
+      </GlassCard>
+    </SlideIn>
+  );
+
   // Loading state
   if (isLoading && !timetable) {
     return (
-      <View className="flex-1 bg-background px-4">
+      <GradientBackground>
+        <BackgroundOrbs />
         <Stack.Screen options={{ title: "Services" }} />
-        <View className="gap-4 pt-4">
-          {/* Search summary */}
-          <View className="bg-surface rounded-card p-4">
-            <Text className="text-text text-lg font-semibold">
-              {from} → {to}
-            </Text>
-            <Text className="text-text-muted text-sm mt-1">
-              {formatTimeDisplay()}
-            </Text>
-          </View>
-
-          {/* Loading skeletons */}
+        <View className="flex-1 px-5 pt-4">
+          <JourneySummary />
           <View className="gap-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <ServiceCardSkeleton key={i} />
+              <FadeIn key={i} delay={i * 100}>
+                <ServiceCardSkeleton />
+              </FadeIn>
             ))}
           </View>
         </View>
-      </View>
+      </GradientBackground>
     );
   }
 
   // Error state
   if (error) {
     return (
-      <View className="flex-1 bg-background px-4">
+      <GradientBackground>
+        <BackgroundOrbs />
         <Stack.Screen options={{ title: "Services" }} />
-        <View className="gap-4 pt-4">
-          {/* Search summary */}
-          <SlideIn direction="top" delay={0}>
-            <View className="bg-surface rounded-2xl p-4">
-              <Text className="text-text text-lg font-semibold">
-                {from} → {to}
-              </Text>
-              <Text className="text-text-muted text-sm mt-1">
-                {formatTimeDisplay()}
-              </Text>
-            </View>
-          </SlideIn>
-
-          {/* Error message */}
+        <View className="flex-1 px-5 pt-4">
+          <JourneySummary />
           <FadeIn delay={100}>
-            <View className="bg-surface rounded-2xl p-6">
+            <GlassCard intensity="medium">
               <EmptyState
                 variant="error"
                 description={
@@ -113,10 +138,10 @@ export default function ServicesScreen() {
                 actionText="Try again"
                 onAction={handleRefresh}
               />
-            </View>
+            </GlassCard>
           </FadeIn>
         </View>
-      </View>
+      </GradientBackground>
     );
   }
 
@@ -124,60 +149,43 @@ export default function ServicesScreen() {
   const services = timetable?.departures?.all || [];
   if (services.length === 0) {
     return (
-      <View className="flex-1 bg-background px-4">
+      <GradientBackground>
+        <BackgroundOrbs />
         <Stack.Screen options={{ title: "Services" }} />
-        <View className="gap-4 pt-4">
-          {/* Search summary */}
-          <SlideIn direction="top" delay={0}>
-            <View className="bg-surface rounded-2xl p-4">
-              <Text className="text-text text-lg font-semibold">
-                {timetable?.station_name || from} → {to}
-              </Text>
-              <Text className="text-text-muted text-sm mt-1">
-                {formatTimeDisplay()}
-              </Text>
-            </View>
-          </SlideIn>
-
-          {/* Empty message */}
+        <View className="flex-1 px-5 pt-4">
+          <JourneySummary stationName={timetable?.station_name} />
           <FadeIn delay={100}>
-            <View className="bg-surface rounded-2xl p-4">
+            <GlassCard intensity="medium">
               <EmptyState variant="no-services" />
-            </View>
+            </GlassCard>
           </FadeIn>
         </View>
-      </View>
+      </GradientBackground>
     );
   }
 
   // Success state with services list
   return (
-    <View className="flex-1 bg-background px-4">
+    <GradientBackground>
+      <BackgroundOrbs />
       <Stack.Screen options={{ title: "Services" }} />
       <FlatList
         data={services}
         keyExtractor={(item) => item.service}
         renderItem={({ item, index }) => (
-          <SlideIn direction="bottom" delay={index * 50}>
+          <SlideIn direction="bottom" delay={Math.min(index * 50, 300)}>
             <ServiceCard
               service={item}
               onPress={() => handleServicePress(item.service)}
             />
           </SlideIn>
         )}
-        contentContainerClassName="gap-3 pb-6 pt-4"
+        contentContainerClassName="gap-3 pb-6 pt-4 px-5"
         ListHeaderComponent={
-          <SlideIn direction="top" delay={0}>
-            <View className="bg-surface rounded-2xl p-4 mb-2">
-              <Text className="text-text text-lg font-semibold">
-                {timetable?.station_name || from} → {to}
-              </Text>
-              <Text className="text-text-muted text-sm mt-1">
-                {formatTimeDisplay()} • {services.length} service
-                {services.length !== 1 ? "s" : ""}
-              </Text>
-            </View>
-          </SlideIn>
+          <JourneySummary
+            stationName={timetable?.station_name}
+            serviceCount={services.length}
+          />
         }
         refreshControl={
           <RefreshControl
@@ -189,6 +197,6 @@ export default function ServicesScreen() {
         }
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </GradientBackground>
   );
 }
