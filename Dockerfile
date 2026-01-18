@@ -1,8 +1,8 @@
 # Build Expo web app and serve with Nginx
-FROM node:18 AS builder
+FROM node:24 AS builder
 WORKDIR /app
 COPY . .
-RUN npm install --legacy-peer-deps && npx expo export
+RUN npm install  && npx expo export
 
 # Stage 2: Nginx static server
 FROM nginx:stable-alpine
