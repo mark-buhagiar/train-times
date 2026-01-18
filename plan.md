@@ -119,14 +119,14 @@ This document outlines the implementation plan for the Train Times iOS app.
   - [x] Long-press menu option
 - [x] Empty state with prompt to add services
 
-### Phase 9: Settings
+### Phase 9: Settings ✅
 
 **Goal**: User preferences management.
 
-- [ ] Build Settings screen
-- [ ] Implement favourite stations multi-select
-- [ ] Persist settings in MMKV
-- [ ] Add app version/info section
+- [x] Build Settings screen
+- [x] Implement favourite stations multi-select
+- [x] Persist settings in MMKV
+- [x] Add app version/info section
 
 ### Phase 10: UI/UX Polish ✅
 
