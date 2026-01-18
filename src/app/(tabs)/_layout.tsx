@@ -1,6 +1,6 @@
 import { theme } from "@/lib/theme/colors";
 import { router, Tabs, usePathname } from "expo-router";
-import { Home, Settings, Star } from "lucide-react-native";
+import { Home, Route, Settings, Star } from "lucide-react-native";
 import {
   Platform,
   Pressable,
@@ -11,6 +11,12 @@ import {
 
 const NAV_ITEMS = [
   { name: "index", title: "Home", icon: Home, href: "/" },
+  {
+    name: "my-journeys",
+    title: "My Journeys",
+    icon: Route,
+    href: "/my-journeys",
+  },
   {
     name: "my-services",
     title: "My Services",
@@ -36,9 +42,6 @@ function WebSidebar({ children }: { children: React.ReactNode }) {
       >
         {/* App Title */}
         <View className="px-6 mb-8">
-          <Text className="text-primary text-sm font-semibold tracking-widest uppercase mb-1">
-            UK Trains
-          </Text>
           <Text className="text-text text-2xl font-bold">Train Times</Text>
         </View>
 
@@ -108,6 +111,7 @@ export default function TabLayout() {
           }}
         >
           <Tabs.Screen name="index" options={{ title: "Home" }} />
+          <Tabs.Screen name="my-journeys" options={{ title: "My Journeys" }} />
           <Tabs.Screen name="my-services" options={{ title: "My Services" }} />
           <Tabs.Screen name="settings" options={{ title: "Settings" }} />
         </Tabs>
@@ -144,9 +148,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="my-journeys"
+        options={{
+          title: "Journeys",
+          tabBarIcon: ({ color, size }) => <Route color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
         name="my-services"
         options={{
-          title: "My Services",
+          title: "Services",
           tabBarIcon: ({ color, size }) => <Star color={color} size={size} />,
         }}
       />

@@ -10,25 +10,29 @@ import { haptics } from "@/lib/utils/haptics";
 import { useSettingsStore } from "@/stores";
 import { Station } from "@/types/stations";
 import { LinearGradient } from "expo-linear-gradient";
-import { Check, MapPin, Plus, Search, Star, Trash2, X } from "lucide-react-native";
+import {
+  Check,
+  MapPin,
+  Plus,
+  Search,
+  Star,
+  Trash2,
+  X,
+} from "lucide-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Animated as RNAnimated,
   FlatList,
   Keyboard,
   Modal,
   PanResponder,
   Platform,
   Pressable,
+  Animated as RNAnimated,
   TextInput as RNTextInput,
   Text,
   View,
 } from "react-native";
-import Animated, {
-  FadeIn,
-  FadeOut,
-  Layout,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
 
 interface FavouriteStationChipProps {
   station: Station;
@@ -37,10 +41,7 @@ interface FavouriteStationChipProps {
 
 const SWIPE_THRESHOLD = 80;
 
-function FavouriteStationRow({
-  station,
-  onRemove,
-}: FavouriteStationChipProps) {
+function FavouriteStationRow({ station, onRemove }: FavouriteStationChipProps) {
   const translateX = useRef(new RNAnimated.Value(0)).current;
   const [isSwiping, setIsSwiping] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -110,19 +111,7 @@ function FavouriteStationRow({
         paddingVertical: 12,
       }}
     >
-      <View
-        style={{
-          width: 32,
-          height: 32,
-          borderRadius: 10,
-          backgroundColor: "rgba(245, 166, 35, 0.2)",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Star size={16} color="#F5A623" fill="#F5A623" />
-      </View>
-      <View style={{ flex: 1, marginLeft: 12 }}>
+      <View style={{ flex: 1 }}>
         <Text className="text-text text-sm font-semibold">{station.name}</Text>
         <Text className="text-text-muted text-xs mt-0.5">{station.crs}</Text>
       </View>
@@ -176,15 +165,35 @@ function FavouriteStationRow({
       entering={FadeIn.duration(200)}
       exiting={FadeOut.duration(150)}
       layout={Layout.springify().damping(15)}
-      style={{ marginBottom: 8, position: "relative", overflow: "hidden", borderRadius: 12 }}
+      style={{
+        marginBottom: 8,
+        position: "relative",
+        overflow: "hidden",
+        borderRadius: 12,
+      }}
     >
       {/* Delete background */}
-      <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, borderRadius: 12, overflow: "hidden" }}>
+      <View
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderRadius: 12,
+          overflow: "hidden",
+        }}
+      >
         <LinearGradient
           colors={["#c53030", theme.error]}
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 0 }}
-          style={{ flex: 1, alignItems: "flex-end", justifyContent: "center", paddingRight: 24 }}
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "center",
+            paddingRight: 24,
+          }}
         >
           <Trash2 size={20} color="#fff" />
         </LinearGradient>

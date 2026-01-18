@@ -1,5 +1,6 @@
 import { ServiceCard, ServiceCardSkeleton } from "@/components/features";
 import {
+  AnimatedPressable,
   BackgroundOrbs,
   EmptyState,
   FadeIn,
@@ -7,12 +8,13 @@ import {
   GradientBackground,
   SlideIn,
 } from "@/components/ui";
-import { useStationTimetable } from "@/hooks";
+import { useStationByCrs, useStationTimetable } from "@/hooks";
 import { theme } from "@/lib/theme";
 import { haptics } from "@/lib/utils";
+import { useJourneysStore } from "@/stores";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { ArrowRight, Train } from "lucide-react-native";
-import { useCallback } from "react";
+import { ArrowRight, Heart, Train } from "lucide-react-native";
+import { useCallback, useMemo } from "react";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 
 export default function ServicesScreen() {
@@ -22,6 +24,20 @@ export default function ServicesScreen() {
     to: string;
     when?: string;
   }>();
+
+  // Get full station details
+  const fromStation = useStationByCrs(from || "");
+  const toStation = useStationByCrs(to || "");
+
+  // Journey save state
+  const { journeys, addJourney } = useJourneysStore();
+  const isJourneySaved = useMemo(
+    () =>
+      journeys.some(
+        (j) => j.fromStation.crs === from && j.toStation.crs === to
+      ),
+    [journeys, from, to]
+  );
 
   // Fetch station timetable
   const {
@@ -41,6 +57,25 @@ export default function ServicesScreen() {
     await haptics.impact("light");
     await refetch();
   }, [refetch]);
+
+  // Toggle journey save handler
+  const handleToggleJourney = useCallback(() => {
+    if (!fromStation || !toStation) return;
+    haptics.impact("medium");
+
+    if (isJourneySaved) {
+      // Find and remove the journey
+      const journeys = useJourneysStore.getState().journeys;
+      const journey = journeys.find(
+        (j) => j.fromStation.crs === from && j.toStation.crs === to
+      );
+      if (journey) {
+        useJourneysStore.getState().removeJourney(journey.id);
+      }
+    } else {
+      addJourney(fromStation, toStation);
+    }
+  }, [fromStation, toStation, isJourneySaved, addJourney, from, to]);
 
   // Navigate to service details
   const handleServicePress = useCallback(
@@ -95,6 +130,21 @@ export default function ServicesScreen() {
                 ` • ${serviceCount} service${serviceCount !== 1 ? "s" : ""}`}
             </Text>
           </View>
+
+          {/* Save journey heart button */}
+          <AnimatedPressable
+            onPress={handleToggleJourney}
+            className={`w-11 h-11 rounded-full items-center justify-center ${
+              isJourneySaved ? "bg-error/20" : "bg-white/10"
+            }`}
+            pressedScale={0.9}
+          >
+            <Heart
+              size={22}
+              color={isJourneySaved ? theme.error : theme.text.muted}
+              fill={isJourneySaved ? theme.error : "transparent"}
+            />
+          </AnimatedPressable>
         </View>
       </GlassCard>
     </SlideIn>

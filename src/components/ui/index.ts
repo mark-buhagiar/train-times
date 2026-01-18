@@ -8,6 +8,7 @@ export { Skeleton, SkeletonCard, SkeletonText } from "./Skeleton";
 export { StatusBadge } from "./StatusBadge";
 export { SwipeableCard } from "./SwipeableCard";
 export { TextInput } from "./TextInput";
+export { TimeBadge } from "./TimeBadge";
 export { TimePicker } from "./TimePicker";
 export { ToastProvider, toast, useToast } from "./Toast";
 

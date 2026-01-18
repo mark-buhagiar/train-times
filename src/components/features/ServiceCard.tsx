@@ -7,7 +7,7 @@ import { theme } from "@/lib/theme";
 import { haptics } from "@/lib/utils/haptics";
 import { ServiceSummary } from "@/types/services";
 import { LinearGradient } from "expo-linear-gradient";
-import { ChevronRight, Clock, MapPin } from "lucide-react-native";
+import { ChevronRight, MapPin } from "lucide-react-native";
 import { Platform, Pressable, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -15,6 +15,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { StatusBadge } from "../ui/StatusBadge";
+import { TimeBadge } from "../ui/TimeBadge";
 
 interface ServiceCardProps {
   service: ServiceSummary;
@@ -119,31 +120,14 @@ export function ServiceCard({ service, onPress }: ServiceCardProps) {
       >
         <View className="flex-row items-center">
           {/* Time Column */}
-          <View className="items-center mr-4">
-            <View
-              className="w-16 h-16 rounded-2xl items-center justify-center mb-1"
-              style={{ backgroundColor: `${statusColor}15` }}
-            >
-              <Text
-                className={`text-2xl font-bold ${isCancelled ? "line-through opacity-50" : ""}`}
-                style={{
-                  color: isCancelled ? theme.error : theme.text.DEFAULT,
-                }}
-              >
-                {aimed_departure_time}
-              </Text>
-            </View>
-            {isDelayed && expected_departure_time && (
-              <View className="flex-row items-center">
-                <Clock size={12} color={theme.warning} />
-                <Text className="text-warning text-xs font-semibold ml-1">
-                  {expected_departure_time}
-                </Text>
-              </View>
-            )}
-            {delayText && !isDelayed && (
-              <Text className="text-warning text-xs">{delayText}</Text>
-            )}
+          <View className="mr-4">
+            <TimeBadge
+              time={aimed_departure_time}
+              statusColor={statusColor}
+              isCancelled={isCancelled}
+              expectedTime={isDelayed ? expected_departure_time : undefined}
+              showIcon
+            />
           </View>
 
           {/* Details Column */}
