@@ -1,0 +1,13 @@
+name: train-times
+
+services:
+  train-times-frontend:
+    build: .
+    container_name: train-times-frontend
+    restart: always
+    networks:
+      - train-times-net
+
+networks:
+  train-times-net:
+    name: train-times-net
