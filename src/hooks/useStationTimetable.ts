@@ -54,7 +54,7 @@ export function useStationTimetable({
     },
     enabled: enabled && !!from,
     staleTime: 1000 * 60, // 1 minute
-    refetchInterval: 1000 * 60, // Refetch every minute for live data
+    // refetchInterval removed so request only happens on search or manual refresh
   });
 }
 

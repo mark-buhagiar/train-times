@@ -173,7 +173,7 @@ export async function fetchStationTimetable(
     stationCrs,
     callingAt,
     datetime,
-    fromOffset = "PT00:30:00",
+    fromOffset = "-PT00:30:00",
     toOffset = "PT01:30:00",
     limit = 25,
   } = params;
