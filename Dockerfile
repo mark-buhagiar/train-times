@@ -13,7 +13,7 @@ ENV EXPO_PUBLIC_TRANSPORT_API_APP_KEY=$EXPO_PUBLIC_TRANSPORT_API_APP_KEY
 ENV EXPO_PUBLIC_USE_MOCK_API=$EXPO_PUBLIC_USE_MOCK_API
 
 COPY . .
-RUN npm install && npx expo export
+RUN npm install && npx expo export --platform web
 
 # Stage 2: Nginx static server
 FROM nginx:stable-alpine
