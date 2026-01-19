@@ -181,6 +181,13 @@ This document outlines the implementation plan for the Train Times iOS app.
 - [ ] Cloud sync for favourites
 - [ ] Push notifications for service updates
 
+### Phase NEXT
+
+- [] If the user has favourites, display them first when selecting a FROM/TO station
+- [] Whenever the user switches to the Home tab, and whenever the home becomes focus (because the user tabbed away or something) and on a regular polling interval, rerun our rules engine to make sure there aren't new recommendations that we should be displaying
+- [] When the user is setting up a location as part of a rule, they should be able to use either an existing location (implemented already), use the current location (implemented already), or pick on map. If picking on a map is complicated, we will let the user enter a postcode, and you can translate that postcode to a latitude and longitude. You could use this API: https://api.postcodes.io/postcodes/{POSTCODE}
+- [] The user can save locations as home/office/etc. Make sure he can then delete them from his settings screen (if they are unused). If they're being used, show a warning, let the user delete the location, and delete rules that were using that location
+
 ---
 
 ## Folder Structure (Bulletproof React)
